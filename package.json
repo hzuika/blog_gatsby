@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hzuika/blog_gatsby/issues"
   },
-  "homepage": "https://github.com/hzuika/blog_gatsby#readme"
+  "homepage": "https://github.com/hzuika/blog_gatsby#readme",
+  "dependencies": {
+    "react": "^18.0.0"
+  }
 }
