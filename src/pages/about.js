@@ -1,6 +1,7 @@
 // ファイル名 がURLのパスになる．
 import React from "react"
 import { Link } from "gatsby"
+import Frame from "../components/frame"
 
 // props でタグの引数を使用できる．
 const Greeting = (props) => {
@@ -19,6 +20,9 @@ const AboutPage = () => {
                 <Greeting name="Taro" />
                 <Greeting name="Hanako" />
             </div>
+            <Frame>
+                <p>This will be bassed in as children</p>
+            </Frame>
         </main>
     )
 }
