@@ -1,39 +1,39 @@
 /* ここで定義した名前を React コンポーネントの className 引数に代入して使用する． */
 /* className={container} */
 .container {
-    /* 要素の全四辺に同じマージン(autoは自動調整)を適用する(中央揃えになる) */
-    margin: auto;
-    max-width: 500px;
-    font-family: sans-serif;
+  /* 要素の全四辺に同じマージン(autoは自動調整)を適用する(中央揃えになる) */
+  margin: auto;
+  max-width: 500px;
+  font-family: sans-serif;
 }
 
 .heading {
-    color: rebeccapurple;
+  color: rebeccapurple;
 }
 
 /* React コンポーネントでは ハイフン - を消してその次の文字を大文字にする  */
 /* 例: className={navLinks} */
 .nav-links {
-    /* 子要素を横並びにする */
-    display: flex;
-    /* リストのマークを消す */
-    list-style: none;
-    /* パディング領域(コンテンツと境界との間の領域) の左側の設定 (どれだけ左に寄せるか) */
-    padding-left: 0;
+  /* 子要素を横並びにする */
+  display: flex;
+  /* リストのマークを消す */
+  list-style: none;
+  /* パディング領域(コンテンツと境界との間の領域) の左側の設定 (どれだけ左に寄せるか) */
+  padding-left: 0;
 }
 
 .nav-link-item {
-    /* 単位 rem はルート要素の font-size を表す */
-    padding-right: 2rem;
+  /* 単位 rem はルート要素の font-size を表す */
+  padding-right: 2rem;
 }
 
 .nav-link-text {
-    color: black;
+  color: black;
 }
 
 .site-title {
-    font-size: 3rem;
-    color: gray;
-    font-weight: 700;
-    margin: 3rem 0;
+  font-size: 3rem;
+  color: gray;
+  font-weight: 700;
+  margin: 3rem 0;
 }
