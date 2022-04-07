@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, useStaticQuery, graphql } from "gatsby"
 import { 
     container, 
     heading, 
@@ -12,9 +12,22 @@ const Layout = ({ pageTitle, children }) => {
     // 引数を props にして，次のように書くことと同じ．
     // const pageTitle = props.pageTitle
     // const children = props.children
+
+    // gatsby-config.js から情報を取得する
+    const data = useStaticQuery(graphql`
+        query {
+            site {
+                siteMetadata {
+                    title
+                }
+            }
+        }
+    `)
+
     return (
         <div className={container}>
-            <title>{pageTitle}</title>
+            <title>{pageTitle} | {data.site.siteMetadata.title}</title>
+            <header>{data.site.siteMetadata.title}</header>
             <nav>
                 <ul className={navLinks}>
                     <li className={navLinkItem}>
