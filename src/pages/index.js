@@ -12,7 +12,7 @@ const Home = () => {
             <h1>Hello Gatsby!</h1>
             <StaticImage 
                 alt="Altanative text."
-                src="https://pbs.twimg.com/media/E1oMV3QVgAIr1NT?format=jpg&name=large"
+                src="https://raw.githubusercontent.com/hzuika/img/main/logo64.png"
             />
         </Layout>
     )
