@@ -1,4 +1,5 @@
 import React from "react";
+import { Pre, Line, LineNo, LineContent } from "./styles";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import Prism from "prism-react-renderer/prism";
 import theme from "prism-react-renderer/themes/vsDark";
@@ -19,15 +20,18 @@ const CodeBlock = ({ codeString, language }) => {
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div className="gatsby-highlight" data-language={language}>
-          <pre className={className} style={style}>
+          <Pre className={className} style={style}>
             {tokens.map((line, i) => (
-              <div {...getLineProps({ line, key: i })}>
-                {line.map((token, key) => (
-                  <span {...getTokenProps({ token, key })} />
-                ))}
-              </div>
+              <Line {...getLineProps({ line, key: i })}>
+                <LineNo>{i + 1}</LineNo>
+                <LineContent>
+                  {line.map((token, key) => (
+                    <span {...getTokenProps({ token, key })} />
+                  ))}
+                </LineContent>
+              </Line>
             ))}
-          </pre>
+          </Pre>
         </div>
       )}
     </Highlight>
