@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 module.exports = {
   siteMetadata: {
     title: "My First Gatsby Site",
@@ -19,5 +22,36 @@ module.exports = {
     },
     "gatsby-plugin-mdx",
     "gatsby-transformer-sharp",
+    {
+      resolve: "gatsby-source-github-api",
+      options: {
+        token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+        graphQLQuery: `
+          query ($repo_owner: String!, $repo_name: String!, $branch: String, $emails: [String!]) {
+            repository(owner: $repo_owner, name: $repo_name) {
+              object(expression: $branch) {
+                ... on Commit {
+                  history(author: {emails: $emails}) {
+                    edges {
+                      node {
+                        messageHeadline
+                        committedDate
+                        commitUrl
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables: {
+          repo_owner: "blender",
+          repo_name: "blender",
+          branch: "master",
+          author_emails: ["hzuika"],
+        },
+      },
+    },
   ],
 };
