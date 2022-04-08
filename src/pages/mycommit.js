@@ -1,6 +1,11 @@
 import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import Layout from "../components/layout";
+import styled from "styled-components";
+
+const CommitList = styled.li`
+  margin-bottom: 1rem;
+`;
 
 const MyCommit = () => {
   const data = useStaticQuery(graphql`
@@ -31,11 +36,11 @@ const MyCommit = () => {
     <Layout pageTitle="My commits">
       <ul>
         {commits.map((commit) => (
-          <li key={commit.node.id}>
+          <CommitList key={commit.node.id}>
             <a href={commit.node.commitUrl}>
               {commit.node.messageHeadline} ({commit.node.oid.slice(0, 11)})
             </a>
-          </li>
+          </CommitList>
         ))}
       </ul>
     </Layout>
