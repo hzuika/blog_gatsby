@@ -26,6 +26,8 @@ module.exports = {
       resolve: "gatsby-source-github-api",
       options: {
         token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+        // oid は コミットハッシュ
+        // committedDate の形式は "2022-03-29T13:29:15Z"
         graphQLQuery: `
           query ($repo_owner: String!, $repo_name: String!, $branch: String, $author_emails: [String!]) {
             repository(owner: $repo_owner, name: $repo_name) {
