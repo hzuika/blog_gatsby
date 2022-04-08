@@ -27,13 +27,15 @@ module.exports = {
       options: {
         token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
         graphQLQuery: `
-          query ($repo_owner: String!, $repo_name: String!, $branch: String, $emails: [String!]) {
+          query ($repo_owner: String!, $repo_name: String!, $branch: String, $author_emails: [String!]) {
             repository(owner: $repo_owner, name: $repo_name) {
               object(expression: $branch) {
                 ... on Commit {
-                  history(author: {emails: $emails}) {
+                  history(author: {emails: $author_emails}) {
                     edges {
                       node {
+                        id
+                        oid
                         messageHeadline
                         committedDate
                         commitUrl

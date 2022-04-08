@@ -48,6 +48,11 @@ const Layout = ({ pageTitle, children }) => {
               Blog
             </Link>
           </li>
+          <li className={navLinkItem}>
+            <Link to="/mycommit" className={navLinkText}>
+              My Commit
+            </Link>
+          </li>
         </ul>
       </nav>
       <main>
