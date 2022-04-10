@@ -1,9 +1,174 @@
 ---
-title: "テキスト"
+title: "URL から Fetch テスト"
 date: "2021-07-24"
 hero_image: "./logo256.png"
 hero_image_alt: "logo"
 tags: ["test"]
 ---
 
-Plain text here!
+GitHub のソースコードをコードブロックとして埋め込みたかったのですが，失敗しました．
+MDXにJSXコンポーネントを埋め込む形だと上手くいきませんでした．
+原因はよくわかりませんが，ASTに変換される順番的に難しいのでしょうか?
+rehypeのようにHTMLから変換するようにすればできるのかもしれません．．．
+
+# 普通のコードブロック
+
+```js
+console.log("Code Block")
+```
+
+# MDX内で定義した文字列は使用可能
+
+```js
+export const hoge = "console.log('export text in mdx')"
+
+<pre>
+<code className="language-js">
+{hoge}
+</code>
+</pre>
+```
+
+export const hoge = "console.log('export text in mdx')"
+
+<pre>
+<code className="language-js">
+{hoge}
+</code>
+</pre>
+
+# fetchで特定のURLの文字列を取得して返す関数 `FetchText` を定義したファイルをインポートして，使用する．
+
+import FetchText from "../../src/components/fetchtext";
+
+```js
+import FetchText from "../../src/components/fetchtext";
+```
+
+`<FetchText/>`をそのまま出力
+<FetchText/>
+
+しかし，`pre`と`code`タグの中に入れるとエラーになる．
+`code`タグ内がまだ`String`ではないので，`trim`関数がなく，エラーになっているっぽい．
+
+```md
+<pre>
+<code className="language-js">
+<FetchText/>
+</code>
+</pre>
+
+One unhandled runtime error found in your files. See the list below to fix it:
+Error in function exports.preToCodeBlock in ./node_modules/mdx-utils/index.js:20
+codeString.trim is not a function
+```
+
+# fetchを使用して，URLからテキストを取得して，`pre`と`code`ではさんで出力するJSXコンポーネントをMDX内でインポートする．
+
+import FetchCode from "../../src/components/texttocode";
+
+```js
+import FetchCode from "../../src/components/texttocode";
+```
+
+MDXの `preToCodeBlock` に値が渡らないまま，そのまま `pre` と `code` として出力される．
+
+<FetchCode/>
+
+# MDX 内で定義した `pre` と `code` でコードをはさんで出力する JSX コンポーネント．
+
+export const CodeBlockInternal = () => {return(<pre><code className="language-js">console.log("code block jsx");</code></pre>);}
+
+`preToCodeBlock` に値が渡ってハイライトなどが付く．
+
+<CodeBlockInternal/>
+
+# MDX内で定義した関数の中で外部JSXコンポーネントを呼ぶ
+
+```js
+export const CodeBlockFromExternal = () => {return(FetchCode());}
+```
+
+export const CodeBlockFromExternal = () => {return(FetchCode());}
+
+先ほどと変わらない．
+<CodeBlockFromExternal/>
+
+# MDX内で定義したJSXコンポーネントの中で外部関数を呼ぶとエラーになる．
+
+なぜか，frontmatterが読めなくなる．
+
+```js
+export const CodeBlockFromExternalText = () => {return(<pre><code className="language-js"><FetchText /></code></pre>);}
+
+<CodeBlockFromExternalText/>
+
+Error in function BlogPost in ./src/pages/blog/{mdx.slug}.js:9
+Cannot read properties of null (reading 'frontmatter')
+```
+
+# MDX内で定義した文字列をMDX内で定義した関数の中で使用すると使える．
+
+export const CodeBlockFromExternalText = () => {return(<pre><code className="language-js">{hoge}</code></pre>);}
+
+<CodeBlockFromExternalText/>
+
+# MDX内で定義した文字列が外部定義関数の返り値を使うとエラーになる．
+
+```js
+export const fuga = FetchText();
+
+{fuga}
+```
+
+# MDX内で定義した複数行の関数は使える
+
+```js
+export const FuncMultiline = () => {
+  data = "Hello";
+  return data;
+};
+
+<FuncMultiline />
+```
+
+export const FuncMultiline = () => {
+  data = "Hello";
+  return data;
+};
+
+<FuncMultiline />
+
+# fetch する関数をMDX内部で定義するとエラーになる．
+
+また， `frontmatter` が読めないエラーになる．
+
+```js
+export const FetchTextInternal = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(
+      "https://gist.githubusercontent.com/hzuika/b9c5040b69451fd348ef2a70e6f81977/raw/fdc4b4f5c024d2213f51a9d89b8a6a3f0140e51d/console_log.js",
+      { method: "GET" }
+    )
+      .then((res) => res.text())
+      .then((resData) => setData(resData))
+      .catch((error) => console.error(error));
+  }, []);
+
+  return data;
+};
+
+Error in function BlogPost in ./src/pages/blog/{mdx.slug}.js:9
+Cannot read properties of null (reading 'frontmatter')
+```
+
+# ダミーJSXコンポーネントを作って， `MDXProvider` の `component` で 置換してもハイライトは適用されない．
+
+import Test from "../../src/components/test";
+
+<Test />
+
+# iframeは接続が拒否される
+
+<iframe id="test" src="https://gist.githubusercontent.com/hzuika/b9c5040b69451fd348ef2a70e6f81977/raw/4f3292bcdfdb496e1b555bfda6e8ef400b05a441/console_log.js"></iframe>
