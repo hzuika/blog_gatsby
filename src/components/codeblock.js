@@ -21,6 +21,13 @@ const CodeBlock = ({ codeString, language }) => {
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <div className="gatsby-highlight" data-language={language}>
           <Pre className={className} style={style}>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(codeString);
+              }}
+            >
+              Copy
+            </button>
             {tokens.map((line, i) => (
               <Line {...getLineProps({ line, key: i })}>
                 <LineNo>{i + 1}</LineNo>
