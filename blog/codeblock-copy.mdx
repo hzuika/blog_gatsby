@@ -1,0 +1,51 @@
+---
+title: "コードブロックにコピーボタンをつける"
+date: "2022-04-10"
+hero_image: "./logo256.png"
+hero_image_alt: "logo"
+tags: ["gatsby"]
+---
+
+# コードブロックにボタンを配置する．
+
+コードブロックを表示する `pre` タグの下にコピー用ボタンを配置する．
+`pre` タグは styled component によって `Pre` タグにしている．
+とりあえず，クリック時にコンソール出力して確認する．
+
+```js
+<Pre>
+    <button
+        onClick={() => {
+        console.log("Clicked");
+        }}
+    >
+        Copy
+    </button>
+    // 続く
+```
+
+
+`CodeBlock` コンポーネントの `codeString` 引数が中身のソースコードを表していたので， `console.log(codeString);` でコンソールに出力して確認する．
+
+```js
+const CodeBlock = ({ codeString, language }) => {
+
+    <button
+        onClick={() => {
+        console.log(codeString); 
+        }}
+    >
+```
+
+クリップボードAPIを使用してコピーします．
+
+```js
+<button
+    onClick={() => {
+    navigator.clipboard.writeText(codeString);
+    }}
+>
+```
+
+参考:
+[JavaScript でテキストをクリップボードにコピーする | Delft スタック](https://www.delftstack.com/ja/howto/javascript/javascript-copy-to-clipboard/)
